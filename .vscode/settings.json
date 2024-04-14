@@ -1,0 +1,8 @@
+{
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-22",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\shazd\\Downloads\\algs4.jar"
+    ],
+    "editor.accessibilitySupport": "off"
+}
