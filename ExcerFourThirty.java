@@ -4,13 +4,12 @@ import edu.princeton.cs.algs4.In;
 import java.util.Arrays;
 
 import edu.princeton.cs.algs4.Graph;
-import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;;
 
 public class ExcerFourThirty {
     boolean[] marked;
-    Queue<Integer> queue = new Queue<>();
     int[] edgeTo;
+    boolean[] onStack;
     Stack<Integer> cycle = new Stack<Integer>();
 
     public boolean eulerian(Graph G) {
@@ -19,30 +18,33 @@ public class ExcerFourThirty {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
         Arrays.fill(edgeTo, -1);
-        edgeTo[0] = 0;
+        onStack = new boolean[G.V()];
         for (int s = 0; s < G.V(); s++) {
-            dfs(G, s, s, false);
+            if (!marked[s]) {
+                onStack[s] = true;
+                marked[s] = true;
+                dfs(G, s, s);
+            }
         }
         return false;
     }
 
-    private void dfs(Graph G, int v, int u, boolean eularian) {
-        marked[v] = true;
+    private void dfs(Graph G, int v, int u) {
         for (int w : G.adj(v)) {
             if (!marked[w]) {
                 edgeTo[w] = v;
-                dfs(G, w, u, eularian);
-            } else if (w != u) {
-                // we have a cycle
-                for (int i = w; i != u; i = edgeTo[i]) {
-                    if (G.degree(i) % 2 == 0) {
-                        eularian = true;
-                    } else {
-                        // if you find one odd degree there is not Eularian cycle; return
-                        eularian = false;
-                        break;
-                    }
+                onStack[w] = true;
+                marked[w] = true;
+                dfs(G, w, u);
+            } else if (w != edgeTo[v] && v != u) {
+                System.out.println("Here is the previous cycle: " + cycle.toString());
+                cycle = new Stack<Integer>();
+                for (int x = v; x != w && x != -1; x = edgeTo[x]) {
+                    cycle.push(x);
                 }
+                cycle.push(w);
+                cycle.push(v);
+                onStack[w] = false;
             }
         }
     }
