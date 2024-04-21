@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "ExcerFourThirty",
+            "request": "launch",
+            "mainClass": "ExcerFourThirty",
+            "projectName": "Undirected_Graphs_80ddfafc",
+            "args": "graph1.txt"
+        },
+        {
+            "type": "java",
+            "name": "ExerciseFourThree",
+            "request": "launch",
+            "mainClass": "ExerciseFourThree",
+            "projectName": "Undirected_Graphs_80ddfafc"
+        },
+        {
+            "type": "java",
+            "name": "practice",
+            "request": "launch",
+            "mainClass": "practice",
+            "projectName": "Undirected_Graphs_80ddfafc"
+        }
+    ]
+}
