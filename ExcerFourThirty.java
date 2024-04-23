@@ -102,10 +102,15 @@ public class ExcerFourThirty {
     }
 
     public static void main(String[] args) {
-        In in = new In(args[0]);
-        Graph Graph1 = new Graph(in);
-        System.out.println(Graph1);
+        In in;
+        Graph currentGraph;
         ExcerFourThirty excerFourThirty = new ExcerFourThirty();
-        System.out.println("Graph1 result: " + excerFourThirty.eulerianBFS(Graph1));
+        for (String fileName : args) {
+            in = new In(fileName);
+            currentGraph = new Graph(in);
+            System.out.println(currentGraph);
+            System.out.printf("Graph1 result: %b", excerFourThirty.eulerianBFS(currentGraph));
+        }
+
     }
 }
