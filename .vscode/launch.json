@@ -16,7 +16,7 @@
             "request": "launch",
             "mainClass": "ExcerFourThirty",
             "projectName": "Undirected_Graphs_80ddfafc",
-            "args": ["graph1.txt", "graph2.txt"]
+            "args": ["graph1.txt", "graph2.txt", "graph3.txt","graph4.txt"]
         },
         {
             "type": "java",
