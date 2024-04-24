@@ -13,6 +13,7 @@ public class ExcerFourThirty {
     boolean[] onStack;
     Stack<Integer> cycle = new Stack<Integer>();
     boolean eulerian = true;
+    boolean hamiltonian = false;
 
     public boolean eulerian(Graph G) {
         // Find the cycle, save it on a stack then check to see if all the vertices have
@@ -51,6 +52,7 @@ public class ExcerFourThirty {
         }
     }
 
+    // Hamiltonian cycles are detected by doing a dfs of
     public boolean eulerianBFS(Graph G) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
@@ -70,7 +72,7 @@ public class ExcerFourThirty {
         marked[i] = true;
         Queue<Integer> queue = new Queue<>();
         queue.enqueue(i);
-        while (!queue.isEmpty()) {
+        First: while (!queue.isEmpty()) {
             int v = queue.dequeue();
             for (int w : G.adj(v)) {
                 if (marked[w]) {
@@ -91,8 +93,10 @@ public class ExcerFourThirty {
                     if (G.degree(i) % 2 == 1) {
                         eulerian = false;
                     }
-                    if (eulerian == true)
-                        return;
+                    if (eulerian == true) {
+                        System.out.println("Found a Eularian cycle.");
+                        break First; // Jump our of the loop. I found a
+                    }
                 } else {
                     edgeTo[w] = v;
                     bfs(G, w);
@@ -101,15 +105,42 @@ public class ExcerFourThirty {
         }
     }
 
+    public boolean checkHamiltonian(Graph G) {
+        marked = new boolean[G.V()];
+        int count = 0;
+        for (int i = 0; i < G.V(); i++) {
+            if (!marked[i])
+                hamiltonianDFS(G, i, count);
+        }
+        return hamiltonian;
+    }
+
+    private void hamiltonianDFS(Graph G, int v, int count) {
+        marked[v] = true;
+        count++;
+        if (count == G.V()) {
+            hamiltonian = true;
+            return;
+        }
+        for (int w : G.adj(v)) {
+            if (!marked[w])
+                hamiltonianDFS(G, v, count);
+        }
+    }
+
     public static void main(String[] args) {
         In in;
         Graph currentGraph;
         ExcerFourThirty excerFourThirty = new ExcerFourThirty();
+        int count = 1;
         for (String fileName : args) {
             in = new In(fileName);
             currentGraph = new Graph(in);
             System.out.println(currentGraph);
-            System.out.printf("Graph1 result: %b", excerFourThirty.eulerianBFS(currentGraph));
+            System.out.printf("Graph %d has eularian cycle: %b\n", count, excerFourThirty.eulerianBFS(currentGraph));
+            System.out.printf("Graph %d has hamiltonian cycle: %b\n", count,
+                    excerFourThirty.checkHamiltonian(currentGraph));
+            count++;
         }
 
     }
