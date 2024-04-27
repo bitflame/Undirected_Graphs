@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ChapFourExcerThirty",
+            "request": "launch",
+            "mainClass": "ChapFourExcerThirty",
+            "projectName": "Undirected_Graphs_80ddfafc"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -16,7 +23,12 @@
             "request": "launch",
             "mainClass": "ExcerFourThirty",
             "projectName": "Undirected_Graphs_80ddfafc",
-            "args": ["graph1.txt", "graph2.txt", "graph3.txt","graph4.txt"]
+            "args": [
+                "graph1.txt",
+                "graph2.txt",
+                "graph3.txt",
+                "graph4.txt"
+            ]
         },
         {
             "type": "java",

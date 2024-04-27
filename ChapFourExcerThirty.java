@@ -2,6 +2,7 @@ import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.ST;
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
 
 public class ChapFourExcerThirty {
     public class Edge {
@@ -32,7 +33,10 @@ public class ChapFourExcerThirty {
                 if (graph.degree(i) % 2 == 1)
                     return null;
             }
-            Queue<Edge>[] adjacent = (Queue<Edge>[]) new Queue[G.V()];
+            Queue<Edge>[] adjacent = (Queue<Edge>[]) new Queue[graph.V()];
+            for (int vertex = 0; vertex < graph.V(); vertex++) {
+                adjacent[vertex]=new Queue<>();
+            }
             for (int i = 0; i < graph.V(); i++) {
                 int selfLoop = 0;
                 for (int neighbor : graph.adj(i)) {
@@ -85,10 +89,56 @@ public class ChapFourExcerThirty {
             }
             return connectedVertex;
         }
+
+    }
+
+    private void printCycle(Stack<Integer> eulerCycle) {
+        StdOut.println("Euler cycle:");
+
+        while (!eulerCycle.isEmpty()) {
+            int vertex = eulerCycle.pop();
+
+            if (!eulerCycle.isEmpty()) {
+                StdOut.print(vertex + "-" + eulerCycle.peek());
+
+                if (eulerCycle.size() > 1) {
+                    StdOut.print(" ");
+                }
+            }
+        }
+        StdOut.println();
     }
 
     public static void main(String[] args) {
+        ChapFourExcerThirty chapFourExcerThirty = new ChapFourExcerThirty();
+        EulerCycle eulerCycle = chapFourExcerThirty.new EulerCycle();
+        Graph graphWithEulerPath1 = new Graph(4);
+        graphWithEulerPath1.addEdge(0, 1);
+        graphWithEulerPath1.addEdge(1, 2);
+        graphWithEulerPath1.addEdge(2, 3);
+        graphWithEulerPath1.addEdge(3, 0);
+        graphWithEulerPath1.addEdge(3, 2);
+        Stack<Integer> eulerCycle1 = eulerCycle.getEulerCycle(graphWithEulerPath1);
+        if (eulerCycle1 != null) {
+            chapFourExcerThirty.printCycle(eulerCycle1);
+        } else {
+            StdOut.println("There is no Eulerian cycle");
+        }
+        StdOut.println("Expected: There is no Eulerian cycle\n");
+        Graph graphWithEulerCycle1 = new Graph(4);
+        graphWithEulerCycle1.addEdge(0, 1);
+        graphWithEulerCycle1.addEdge(1, 2);
+        graphWithEulerCycle1.addEdge(2, 3);
+        graphWithEulerCycle1.addEdge(3, 0);
 
+        Stack<Integer> eulerCycle2 = eulerCycle.getEulerCycle(graphWithEulerCycle1);
+
+        if (eulerCycle2 != null) {
+            chapFourExcerThirty.printCycle(eulerCycle2);
+        } else {
+            StdOut.println("There is no Eulerian cycle");
+        }
+        StdOut.println("Expected: 0-3 3-2 2-1 1-0\n");
     }
 
 }
