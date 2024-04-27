@@ -1,9 +1,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
-
 import java.util.Arrays;
-
 import edu.princeton.cs.algs4.Graph;
 import edu.princeton.cs.algs4.Stack;;
 
@@ -29,7 +27,7 @@ public class ExcerFourThirty {
                 dfs(G, s, s);
             }
         }
-        return false;
+        return eulerian;
     }
 
     private void dfs(Graph G, int v, int u) {
@@ -39,15 +37,25 @@ public class ExcerFourThirty {
                 onStack[w] = true;
                 marked[w] = true;
                 dfs(G, w, u);
-            } else if (w != edgeTo[v] && v != u) {
-                System.out.println("Here is the previous cycle: " + cycle.toString());
+                // w != edgeTo[v] && v != u
+            } else if (onStack[w] && w != edgeTo[v]) {
+
                 cycle = new Stack<Integer>();
                 for (int x = v; x != w && x != -1; x = edgeTo[x]) {
                     cycle.push(x);
                 }
                 cycle.push(w);
                 cycle.push(v);
-                onStack[w] = false;
+                onStack[v] = false;
+                for (int i : cycle) {
+                    if (G.degree(i) % 2 == 1) {
+                        eulerian = false;
+                    } else
+                        eulerian = true;
+                }
+                if (eulerian)
+                    return;
+                System.out.println("Here is the current cycle: " + cycle.toString());
             }
         }
     }
@@ -56,7 +64,7 @@ public class ExcerFourThirty {
     public boolean eulerianBFS(Graph G) {
         marked = new boolean[G.V()];
         edgeTo = new int[G.V()];
-        // Arrays.fill(edgeTo, -1);
+        Arrays.fill(edgeTo, -1);
         hamiltonian = false;
         bfs(G, 0);
         return eulerian;
@@ -66,29 +74,32 @@ public class ExcerFourThirty {
         marked[i] = true;
         Queue<Integer> queue = new Queue<>();
         queue.enqueue(i);
+        onStack = new boolean[G.V()];
         while (!queue.isEmpty()) {
             int v = queue.dequeue();
             for (int w : G.adj(v)) {
-                if (w == i) {
+                if (!marked[w]) {
+                    edgeTo[w] = v;
+                    marked[w] = true;
+                    onStack[w] = true;
+                    queue.enqueue(w);
+                } else if (onStack[w] && w != edgeTo[v]) {
                     // if it is marked, we have a cycle < -- Does not work and it is not enough
                     cycle = new Stack<>();
                     eulerian = true;
-                    for (int x = v; x != i; x = edgeTo[x]) {
+                    for (int x = v; x != w && x != -1; x = edgeTo[x]) {
                         if (G.degree(x) % 2 == 1) {
                             eulerian = false;
                         }
                         cycle.push(x);
                     }
                     cycle.push(w);
-                    cycle.push(i);
+                    cycle.push(v);
                     System.out.println("Here is the next cycle: " + cycle);
                     if (G.degree(i) % 2 == 1) {
                         eulerian = false;
                     }
-                } else if (!marked[w]) {
-                    edgeTo[w] = v;
-                    marked[w] = true;
-                    queue.enqueue(w);
+                    onStack[v] = false;
                 }
             }
         }
@@ -102,16 +113,18 @@ public class ExcerFourThirty {
         In in;
         Graph currentGraph;
         ExcerFourThirty excerFourThirty = new ExcerFourThirty();
-        int count = 1;
         for (String fileName : args) {
             in = new In(fileName);
             currentGraph = new Graph(in);
-            // System.out.println(currentGraph);
-            System.out.printf("Graph %d has eularian cycle: %b\n", count, excerFourThirty.eulerianBFS(currentGraph));
-            System.out.printf("Graph %d has hamiltonian cycle: %b\n", count, excerFourThirty.getHamiltonian());
-            count++;
+            System.out.println("Testing Graph: " + fileName + " using depth first search.");
+            System.out.printf("Graph %s has eularian cycle: %b\n", fileName, excerFourThirty.eulerian(currentGraph));
         }
-        // count = 10;
-        // excerFourThirty.myRecursivecall(count);
+        for (String fileName : args) {
+            in = new In(fileName);
+            currentGraph = new Graph(in);
+            System.out.println("Testing Graph: " + fileName + " using breadth first search.");
+            System.out.printf("Graph %s has hamiltonian cycle: %b\n", fileName,
+                    excerFourThirty.eulerianBFS(currentGraph));
+        }
     }
 }
