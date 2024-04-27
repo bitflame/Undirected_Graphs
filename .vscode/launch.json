@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CopyGraph",
+            "request": "launch",
+            "mainClass": "CopyGraph",
+            "projectName": "Undirected_Graphs_80ddfafc",
+            "args": "graph1.txt"
+        },
+        {
+            "type": "java",
             "name": "ChapFourExcerThirty",
             "request": "launch",
             "mainClass": "ChapFourExcerThirty",
@@ -42,7 +50,7 @@
             "name": "practice",
             "request": "launch",
             "mainClass": "practice",
-            "projectName": "Undirected_Graphs_80ddfafc"
+            "projectName": "Undirected_Graphs_80ddfafc",
         }
     ]
 }
