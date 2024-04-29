@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Person",
+            "request": "launch",
+            "mainClass": "Person",
+            "projectName": "Undirected_Graphs_80ddfafc"
+        },
+        {
+            "type": "java",
             "name": "CopyGraph",
             "request": "launch",
             "mainClass": "CopyGraph",
@@ -50,7 +57,7 @@
             "name": "practice",
             "request": "launch",
             "mainClass": "practice",
-            "projectName": "Undirected_Graphs_80ddfafc",
+            "projectName": "Undirected_Graphs_80ddfafc"
         }
     ]
 }
